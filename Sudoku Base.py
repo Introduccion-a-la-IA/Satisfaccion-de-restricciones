@@ -125,12 +125,12 @@ def probar_algoritmo(funcion, tablero):
 
     # Imprimir resultados
     print(f"\n🔹 {funcion.__name__}:")
-    print(f"   ⏳ Tiempo de ejecución: {fin - inicio:.10f} segundos.")
-    print(f"   🎯 Intentos realizados: {contador_intentos}")
+    print(f"  Tiempo de ejecución: {fin - inicio:.10f} segundos.")
+    print(f"  Intentos realizados: {contador_intentos}")
     if resultado:
-        print("   ✅ Sudoku resuelto correctamente.")
+        print("  Sudoku resuelto correctamente.")
     else:
-        print("   ❌ No se encontró solución.")
+        print("  No se encontró solución.")
 
 if __name__ == "__main__":
     tablero = [
