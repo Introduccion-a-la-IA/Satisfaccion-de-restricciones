@@ -105,11 +105,65 @@ def solucion2_BT(tablero):
     return tablero if resultado else False
 
 
-#def solucion3_BT_FC(tablero):
+def solucion3_BT_FC(tablero):
+    global contador_intentos
     
-    #return True or False 
-
-import time
+    def obtener_posibilidades(fila, col):
+        posibilidades = set(range(1, 10))
+        for x in range(9):
+            posibilidades.discard(tablero[fila][x])
+            posibilidades.discard(tablero[x][col])
+        
+        fila_inicial, col_inicial = 3 * (fila // 3), 3 * (col // 3)
+        for i in range(3):
+            for j in range(3):
+                posibilidades.discard(tablero[fila_inicial + i][col_inicial + j])
+        
+        return list(posibilidades)
+    
+    def actualizar_dominio(dominios, fila, col, num, agregar=True):
+        for x in range(9):
+            if num in dominios[fila][x]:
+                dominios[fila][x].remove(num) if not agregar else dominios[fila][x].append(num)
+            if num in dominios[x][col]:
+                dominios[x][col].remove(num) if not agregar else dominios[x][col].append(num)
+        
+        fila_inicial, col_inicial = 3 * (fila // 3), 3 * (col // 3)
+        for i in range(3):
+            for j in range(3):
+                if num in dominios[fila_inicial + i][col_inicial + j]:
+                    dominios[fila_inicial + i][col_inicial + j].remove(num) if not agregar else dominios[fila_inicial + i][col_inicial + j].append(num)
+    
+    def backtrack(dominios):
+        global contador_intentos
+        mejor_fila, mejor_col, mejor_opciones = None, None, 10
+        for i in range(9):
+            for j in range(9):
+                if tablero[i][j] == 0:
+                    opciones = dominios[i][j]
+                    if len(opciones) < mejor_opciones and len(opciones) > 0:
+                        mejor_opciones = len(opciones)
+                        mejor_fila, mejor_col = i, j
+        
+        if mejor_fila is None:
+            return True
+        
+        for num in list(dominios[mejor_fila][mejor_col]):
+            contador_intentos += 1
+            tablero[mejor_fila][mejor_col] = num
+            actualizar_dominio(dominios, mejor_fila, mejor_col, num, agregar=False)
+            
+            if backtrack(dominios):
+                return True
+            
+            tablero[mejor_fila][mejor_col] = 0
+            actualizar_dominio(dominios, mejor_fila, mejor_col, num, agregar=True)
+        
+        return False
+    
+    dominios = [[obtener_posibilidades(i, j) if tablero[i][j] == 0 else [] for j in range(9)] for i in range(9)]
+    resultado = backtrack(dominios)
+    return tablero if resultado else False
 
 def probar_algoritmo(funcion, tablero):
     global contador_intentos
@@ -148,7 +202,7 @@ if __name__ == "__main__":
 
     probar_algoritmo(solucion1_FB, tablero)
     probar_algoritmo(solucion2_BT, tablero)
-    #probar_algoritmo(solucion3_BT_FC, tablero)
+    probar_algoritmo(solucion3_BT_FC, tablero)
     
     
     print("\nSolución:")
