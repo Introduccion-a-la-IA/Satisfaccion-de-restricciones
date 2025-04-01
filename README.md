@@ -37,8 +37,5 @@ El script probará automáticamente los tres algoritmos sobre un tablero de Sudo
 ## Resultados
 El programa mostrará el tiempo de ejecución y la cantidad de intentos realizados por cada algoritmo.
 
-## Requisitos
-- Python 3.x
-
-## Autor
-Desarrollado por un estudiante de Ingeniería de Sistemas apasionado por la inteligencia artificial y la optimización de algoritmos. 🚀
+## Grupo
+TEAM DINAMITA 🚀
